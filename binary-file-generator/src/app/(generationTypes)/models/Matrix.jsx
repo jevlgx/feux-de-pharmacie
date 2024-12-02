@@ -19,11 +19,10 @@ const Matrix = () => {
     const copyToClipboard = () => {
         // Joindre les valeurs hexadécimales en une seule chaîne
         const hexString = hexValues.join(' ');
-        const hexImage = hexString.repeat(8);
-        const complete = 'FF'.repeat(8064);
+        const complete = hexString.repeat(1024);
 
         // Copier dans le presse-papier
-        navigator.clipboard.writeText(hexImage.concat(complete))
+        navigator.clipboard.writeText(complete)
             .then(() => {
                 setCopyMessage('Copié dans le presse-papier !'); // Afficher le message
                 setTimeout(() => setCopyMessage(''), 2000); // Masquer le message après 2 secondes
