@@ -1,8 +1,9 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import Led from "./Led";
 
 const Column = forwardRef(({ onGetColumnHEX }, ref) => {
     const [Leds, setLeds] = useState(Array(8).fill(false)); // 8 Leds dans chaque colonne
+    const LedRefs = useRef(Array(8).fill(null))
 
     const handleToggle = (index) => {
         const newLeds = [...Leds];
@@ -22,15 +23,28 @@ const Column = forwardRef(({ onGetColumnHEX }, ref) => {
         return hexValue2.concat(hexValue1) // Met à jour l'affichage des états en hexadécimal
     };
 
+    const pasteColumnHex = (hexString)=>{
+        const decimalValue = parseInt(hexString, 16);
+        const binaryString = decimalValue.toString(2).padStart(8, '0').split('').reverse().join('');
+
+        LedRefs.current.map((ledRef, index)=>{
+            if(ledRef){
+                ledRef.changeState(binaryString[index])
+            }else{
+                return null;
+            }
+        })
+    }
+
     // Utiliser ref pour permettre à Matrix d'accéder à getColumnHEX
     useImperativeHandle(ref, () => ({
-        getColumnHEX
+        getColumnHEX, pasteColumnHex
     }));
 
     return (
         <div>
             {Leds.map((isOn, index) => (
-                <Led key={index} index={index} onToggle={handleToggle} />
+                <Led ref={(ref) => {LedRefs.current[index] = ref}} key={index} index={index} onToggle={handleToggle} />
             ))}
         </div>
     );

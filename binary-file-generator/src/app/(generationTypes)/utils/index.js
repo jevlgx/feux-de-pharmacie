@@ -5,7 +5,6 @@ export const SETTING_MODES = {
 }
 
 export const copyToClipboard = (hexValues) => {
-    console.log("arrive dans copy",hexValues.length)
     navigator.clipboard.writeText(hexValues)
         .then(() => {
             alert('Copié dans le presse-papier !')
@@ -23,7 +22,7 @@ export const seralizeImagesToHex = (numberOfLoopingImages, matrices, matrixRefs)
   const totalCurrentOccurences = matrices.reduce((acc, matrix) => acc + matrix.occurence, 0);
   if (totalCurrentOccurences !== numberOfLoopingImages) {
     throw new Error(`Le nombre d'images doit être égal à ${numberOfLoopingImages}`);
-  } else {
+  }
     const matrixImages = matrices.map((matrix, index) => {
       const matrixRef = matrixRefs.current[index]; // Récupère la référence correspondante
       if (matrixRef.current) {
@@ -32,10 +31,15 @@ export const seralizeImagesToHex = (numberOfLoopingImages, matrices, matrixRefs)
       return null;
     });
     return matrixImages.join('').repeat(correspondingRepetition); // Toutes les images sont jointes en une seule
-  }
+  
 }; 
 
 export const seralizeImagesToHexArray = (matrices, matrixRefs)=>{
+
+  const totalCurrentOccurences = matrices.reduce((acc, matrix) => acc + matrix.occurence, 0);
+  if (totalCurrentOccurences < 1) {
+    throw new Error(`vous devez avoir au moins une image`);
+  }
     const matrixImages = matrices.map((matrix, index) => {
       const matrixRef = matrixRefs.current[index]; // Récupère la référence correspondante
       if (matrixRef.current) {
@@ -44,6 +48,8 @@ export const seralizeImagesToHexArray = (matrices, matrixRefs)=>{
       return null;
     });
     return matrixImages;
+
+  
 }
 
 export const downloadBinFile = (fileName, hexValues) => {

@@ -8,13 +8,14 @@ import {
   seralizeImagesToHexArray,
 } from "../utils"; // Assurez-vous que downloadSetOfBinFiles est importé
 
-export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatrix }) {
+export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatrix, setMatrixMode }) {
   const [mode, setMode] = useState(SETTING_MODES.mono); // État pour le mode d'utilisation
   const [numberOfLoopingImages, setnumberOfLoopingImages] = useState(1); // État pour le nombre de matrices sélectionnées
 
   const handleModeChange = (newMode) => {
     deleteAllMatrix(); // Supprime toutes les matrices
     addMatrix(); //ajoute une matrice
+    setMatrixMode(newMode);
 
     setMode(newMode)
   };
@@ -71,7 +72,7 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
                 onClick={() => { addMatrix()}}
                 className="mt-4 bg-blue-500 text-white p-2 rounded"
               >
-                Ajouter une Matrice
+                Ajouter une Image
               </button>
             <button
               onClick={() => { handleModeChange(SETTING_MODES.mono)}}
