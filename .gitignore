@@ -1,0 +1,35 @@
+# Ignorer les dossiers de sauvegarde
+Project Backups/
+
+# Ignorer les fichiers de workspace
+**.workspace
+
+# Ignorer les dépendances installées
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Ignorer les fichiers de build
+.next/
+out/
+
+# Ignorer les fichiers de configuration de l'environnement
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignorer les fichiers de cache
+.cache/
+
+# Ignorer les fichiers spécifiques à Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Ignorer les fichiers temporaires
+*.tmp
+*.temp
+*node_modules*
