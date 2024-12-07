@@ -5,8 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --mocup-color: #c0c0c0;
-  --mocup-color-2: #7c7c7c;
+  --mocup-color: #e0e0e0; /* Lighter for a softer appearance */
+  --mocup-color-2: #f7f7f7; /* Even lighter for sections */
   --header-height: 60px;
   --body-height: calc(100vh - var(--header-height) - var(--footer-height));
   --footer-height: 0px;
@@ -14,77 +14,118 @@
   --workspace-width: calc(100vw - var(--tool-bar-width));
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #181818;
+    --foreground: #f0f0f0;
+    --mocup-color: #3a3a3a; /* Darker for contrast */
+    --mocup-color-2: #4a4a4a; /* Darker for sections */
   }
-} */
+}
 
-*{
-  overflow: hidden;
+* {
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Arial', 'Helvetica', sans-serif;
 }
 
-body > #main{
+body > #main {
   position: fixed;
   left: 0;
   top: 0;
-
   display: grid;
   height: 100vh;
   width: 100vw;
-  overflow:hidden;
-  grid-template-columns: 100vw;
+  overflow: hidden;
+  grid-template-columns: 1fr; /* Changed to use flexible columns */
   grid-template-rows: var(--header-height) var(--body-height) var(--footer-height);
-  header, footer{
+
+  header, footer {
     background-color: var(--mocup-color);
     font-size: large;
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
   }
-  > header{
+
+  > header {
     height: var(--header-height);
+    display: flex; /* Center contents */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold; /* Enhanced header text */
   }
-  > main{
+
+  > main {
     display: grid;
     grid-template-rows: max-content 1fr;
     height: var(--body-height);
-    section{
+    
+    section {
       background-color: var(--mocup-color-2);
+      padding: 1rem; /* Add padding for content */
+      border-radius: 8px; /* Rounded corners for sections */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Soft shadow for sections */
     }
 
-    #matrix-container{
+    #matrix-container {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fill, 200px);
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
       gap: 2rem;
       padding: 2rem;
       justify-content: center;
     }
 
-    #workspace, #tool-bar{
+    #workspace, #tool-bar {
       height: 100%;
-      overflow-x:hidden;
+      overflow-x: hidden;
       overflow-y: auto;
     }
-    #workspace{
+
+    #workspace {
       height: 100%;
       width: var(--workspace-width);
-      background-color: blue;
+      background-color: rgb(253, 253, 253);
+      border-radius: 8px; /* Rounded corners */
+      padding: 1rem; /* Padding for workspace */
     }
-    #tool-bar{
-      width: var(--tool-bar-width);
-      background-color: rgb(148, 82, 82);
 
-      height: 100%;
+    #tool-bar {
+      width: var(--tool-bar-width);
+      background-color: rgb(221, 232, 236); /* Use a defined blue color */
+      height: 90%;
       display: grid;
       grid-template-rows: 1fr 50px;
+      padding: 1rem; 
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Shadow for toolbar */
     }
   }
+}
 
+/* Button Styles */
+.button {
+  background-color: rgb(199, 221, 228); /* Light blue */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: rgb(85, 160, 190); /* Darker blue on hover */
+}
+
+.button.red {
+  background-color: rgb(255, 82, 82); /* Soft red */
+}
+
+.button.red:hover {
+  background-color: rgb(255, 65, 65); /* Darker red on hover */
 }

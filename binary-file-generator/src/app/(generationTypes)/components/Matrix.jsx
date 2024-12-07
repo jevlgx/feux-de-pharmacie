@@ -73,7 +73,7 @@ const Matrix = forwardRef(({ index = 1 }, ref) => {
 
   return (
     <div
-      className="flex-grow flex justify-center bg-white hover:bg-blue-300"
+      className="flex-grow flex justify-center bg-white hover:bg-blue-300 "
       onContextMenu={handleContextMenu}
     >
       <div className="w-[200px]">
