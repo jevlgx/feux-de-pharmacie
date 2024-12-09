@@ -3,30 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --body-background: #f9f9f9;
   --foreground: #171717;
   --mocup-color: #e0e0e0; /* Lighter for a softer appearance */
   --mocup-color-2: #f7f7f7; /* Even lighter for sections */
   --tool-bar-width: 300px; /* Fixed width for toolbar */
-  --workspace-width: 1000px; /* Fixed width for toolbar */
+  --workspace-width: calc(100vw - var(--tool-bar-width)); /* Fixed width for toolbar */
+  --color: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #181818;
-    --foreground: #f0f0f0;
-    --mocup-color: #3a3a3a; /* Darker for contrast */
-    --mocup-color-2: #4a4a4a; /* Darker for sections */
-  }
-}
+
 
 * {
   box-sizing: border-box; /* Include padding and border in width and height */
+  color: var(--color);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--body-background);
   font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif; /* Updated font family */
   margin: 0; /* Remove default margin */
 }
@@ -46,6 +41,7 @@ body > #main {
   }
 
   > main {
+    min-width: 100vw;
     display: flex; /* Use flexbox for workspace and toolbar */
     /* flex: 1; Allow main to fill available space */
     
@@ -68,7 +64,7 @@ body > #main {
     }
     #workspace {
       flex: 1; /* Allow workspace to fill remaining space */
-      background-color: rgb(255, 255, 255);
+      background-color: var(--body-background);
       padding: 1rem; /* Padding for workspace */
       overflow-y: auto; /* Enable vertical scrolling */
       width: var(--workspace-width);
@@ -98,4 +94,14 @@ body > #main {
 
 .button.red:hover {
   background-color: rgb(255, 65, 65); /* Darker red on hover */
+}
+
+.matrix-index{
+  color: var(--background);
+}
+.matrix-options{
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 7px;
+  align-content: center;
 }

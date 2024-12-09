@@ -19,7 +19,7 @@ const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
   };
 
   useImperativeHandle(ref, () => ({
-    getStaticImage,
+    getStaticImage, pasteSymbole, 
   }));
 
   const handleContextMenu = (event) => {
@@ -33,19 +33,32 @@ const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
     setShowTooltip(false); // Hide tooltip after click
   };
 
-  const handlePaste = () => {
+  const pasteSymbole = (text)=>{
+    const hexPattern = /^[0-9A-Fa-f]{16}$/;
+    if (hexPattern.test(text)) { // Only paste if value matches possible matrix state
+      columnsRefs.current.forEach((columnRef, index) => {
+        if (columnRef) {
+          columnRef.pasteColumnHex(text.slice(index * 2, index * 2 + 2)); // Call to the column method
+        }
+      });
+    } else {
+      alert('Veuillez copier une matrice avant');
+    }
+  }
+
+  const pasteFromClipBoard = () => {
     navigator.clipboard.readText()
       .then(text => {
         const hexPattern = /^[0-9A-Fa-f]{16}$/;
-        if (hexPattern.test(text)) { // Only paste if value matches possible matrix state
-          columnsRefs.current.forEach((columnRef, index) => {
-            if (columnRef) {
-              columnRef.pasteColumnHex(text.slice(index * 2, index * 2 + 2)); // Call to the column method
-            }
-          });
-        } else {
-          alert('Veuillez copier une matrice avant');
+    if (hexPattern.test(text)) { // Only paste if value matches possible matrix state
+      columnsRefs.current.forEach((columnRef, index) => {
+        if (columnRef) {
+          columnRef.pasteColumnHex(text.slice(index * 2, index * 2 + 2)); // Call to the column method
         }
+      });
+    } else {
+      alert('Veuillez copier une matrice avant');
+    }
       })
       .catch(err => {
         alert('Erreur lors du collage : ');
@@ -77,12 +90,12 @@ const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
       onContextMenu={handleContextMenu}
     >
       <div className="w-[200px]">
-        <div className="grid grid-cols-8">
+        <div className="grid grid-cols-8 hover:bg-gray-300">
           {Array.from({ length: 8 }, (_, colIndex) => (
             <Column key={colIndex} ref={(el) => (columnsRefs.current[colIndex] = el)} />
           ))}
         </div>
-        <p className="text-center py-2">{index}</p>
+        <p className="text-center py-2 matrix-index">Image {index}</p>
       </div>
 
       {showTooltip && (
@@ -91,8 +104,8 @@ const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
           className="cursor-pointer absolute bg-gray-700 text-white p-2 rounded"
           style={{ left: tooltipPosition.left, top: tooltipPosition.top }}
         >
-          <div onClick={handleCopy}>Copier</div>
-          <div onClick={handlePaste}>Coller</div>
+          <div className="text-white" onClick={handleCopy}>Copier</div>
+          <div className="text-white" onClick={pasteFromClipBoard}>Coller</div>
         </div>
       )}
     </div>

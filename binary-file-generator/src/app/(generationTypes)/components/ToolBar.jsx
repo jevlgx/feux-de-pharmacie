@@ -33,22 +33,22 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
             <div className="flex flex-col items-center mt-4">
               <button
                 onClick={() => { handleModeChange(SETTING_MODES.multy); }}
-                className="mt-4 bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
+                className="mt-4 w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
               >
                 Passer en mode Multi
               </button>
               {(matrices.length < numberOfLoopingImages) && (
                 <button
                   onClick={() => { addMatrix(); }}
-                  className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+                  className="mt-4 w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
                 >
-                  Ajouter une Matrice
+                  Ajouter une Image
                 </button>
               )}
 
               <div className="mt-4">
                 <label htmlFor="matrix-count" className="block">
-                  Nombre max d'images :
+                  Nombre maximum d'images :
                 </label>
                 <select
                   id="matrix-count"
@@ -72,13 +72,13 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
           <>
             <button
               onClick={() => { handleModeChange(SETTING_MODES.mono); }}
-              className="mt-4 bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
+              className="mt-4 w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
             >
               Passer en mode Mono
             </button>
             <button
               onClick={() => { addMatrix(); }}
-              className="mt-4 bg-blue-400 flex text-white p-2 rounded hover:bg-blue-500 transition duration-200"
+              className="mt-4 w-full text-center bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
             >
               Ajouter une Image
             </button>
@@ -119,7 +119,7 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
                 try {
                   downloadBinFile("matrice.bin", seralizeImagesToHex(numberOfLoopingImages, matrices, matrixRefs));
                 } catch (e) {
-                  console.error(e);
+                  console.log(e);
                   alert(e.message);
                 }
               }}
