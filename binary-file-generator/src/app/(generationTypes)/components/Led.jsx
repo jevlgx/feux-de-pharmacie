@@ -1,36 +1,39 @@
-import { useState,forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-const Led = forwardRef(({index, onToggle}, ref) =>{
-    // Déclare une variable d'état "isOn" initialisée à false (éteint)
+const Led = forwardRef(({ index, onToggle }, ref) => {
+    // Declare a state variable "isOn" initialized to false (off)
     const [isOn, setIsOn] = useState(false);
 
     const toggleLED = () => {
         setIsOn(prevIsOn => !prevIsOn);
-        onToggle(index); // Appelle la fonction parent pour notifier le changement
+        onToggle(index); // Call the parent function to notify the change
     };
 
-    const changeState = (state)=>{
-        setIsOn(state == "1" ? false : true)
-    }
+    const changeState = (state) => {
+        setIsOn(state === "1" ? false : true);
+    };
 
     useImperativeHandle(ref, () => ({
         changeState,
     }));
 
-    // Style de la LED
+    // Define the LED style
     const style = {
         width: '100%',
         aspectRatio: '1 / 1',
         border: '1px solid black',
         borderRadius: '50%',
-        backgroundColor: isOn ? 'green' : 'white', // Vert si allumé, blanc si éteint
-        cursor: 'pointer' // Change le curseur pour indiquer qu'il est cliquable
+        cursor: 'pointer', 
     };
 
     return (
-        <div style={style} onClick={toggleLED}>
+        <div 
+            style={style} 
+            className={isOn ? 'bg-green-500' : 'bg-white'} 
+            onClick={toggleLED}
+        >
         </div>
     );
-})
+});
 
 export default Led;

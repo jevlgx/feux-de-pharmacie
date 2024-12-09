@@ -7,11 +7,8 @@
   --foreground: #171717;
   --mocup-color: #e0e0e0; /* Lighter for a softer appearance */
   --mocup-color-2: #f7f7f7; /* Even lighter for sections */
-  --header-height: 60px;
-  --body-height: calc(100vh - var(--header-height) - var(--footer-height));
-  --footer-height: 0px;
-  --tool-bar-width: 300px;
-  --workspace-width: calc(100vw - var(--tool-bar-width));
+  --tool-bar-width: 300px; /* Fixed width for toolbar */
+  --workspace-width: 1000px; /* Fixed width for toolbar */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,35 +21,24 @@
 }
 
 * {
-  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+  box-sizing: border-box; /* Include padding and border in width and height */
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif; /* Updated font family */
+  margin: 0; /* Remove default margin */
 }
 
 body > #main {
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  grid-template-columns: 1fr; /* Changed to use flexible columns */
-  grid-template-rows: var(--header-height) var(--body-height) var(--footer-height);
-
-  header, footer {
-    background-color: var(--mocup-color);
-    font-size: large;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
-  }
+  display: flex; /* Use flexbox for layout */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  overflow: hidden; /* Hide overflow for main container */
 
   > header {
-    height: var(--header-height);
+    height: var(--header-height); /* Fixed height for header */
     display: flex; /* Center contents */
     align-items: center;
     justify-content: center;
@@ -60,49 +46,33 @@ body > #main {
   }
 
   > main {
-    display: grid;
-    grid-template-rows: max-content 1fr;
-    height: var(--body-height);
+    display: flex; /* Use flexbox for workspace and toolbar */
+    /* flex: 1; Allow main to fill available space */
     
-    section {
-      background-color: var(--mocup-color-2);
-      padding: 1rem; /* Add padding for content */
-      border-radius: 8px; /* Rounded corners for sections */
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Soft shadow for sections */
+    #tool-bar {
+      width: var(--tool-bar-width);
+      background-color: rgb(221, 232, 236); /* Use a defined blue color */
+      height: var(--tool-bar-height); /* Fixed height */
+      display: grid;
+      grid-template-rows: 1fr 50px; /* You can adjust this based on your toolbar structure */
+      padding: 1rem; 
+      border-bottom-right-radius: 20px; /* Rounded corners */
+      border-top-right-radius: 20px; /* Rounded corners */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Shadow for toolbar */
     }
-
     #matrix-container {
-      width: 100%;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
       gap: 2rem;
       padding: 2rem;
-      justify-content: center;
     }
-
-    #workspace, #tool-bar {
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
     #workspace {
-      height: 100%;
-      width: var(--workspace-width);
-      background-color: rgb(253, 253, 253);
-      border-radius: 8px; /* Rounded corners */
+      flex: 1; /* Allow workspace to fill remaining space */
+      background-color: rgb(255, 255, 255);
       padding: 1rem; /* Padding for workspace */
-    }
+      overflow-y: auto; /* Enable vertical scrolling */
+      width: var(--workspace-width);
 
-    #tool-bar {
-      width: var(--tool-bar-width);
-      background-color: rgb(221, 232, 236); /* Use a defined blue color */
-      height: 90%;
-      display: grid;
-      grid-template-rows: 1fr 50px;
-      padding: 1rem; 
-      border-radius: 8px; /* Rounded corners */
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Shadow for toolbar */
     }
   }
 }

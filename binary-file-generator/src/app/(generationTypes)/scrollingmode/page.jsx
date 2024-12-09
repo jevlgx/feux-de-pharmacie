@@ -7,8 +7,7 @@ import Workspace from "../components/Workspace";
 import { MaxImages, SETTING_MODES } from "../utils";
 
 const Scrollingmode = () => {
-  const [matrices, setMatrices] = useState([{ id: Date.now(), occurence: 1 }]);
-  const [letter, setLetter] = useState(""); // State for the letter input
+  const [matrices, setMatrices] = useState([{ id: Date.now(), occurence: 1, letter: "" }]);
   const matrixRefs = useRef([React.createRef()]);
   const [matrixMode, setMatrixMode] = useState(SETTING_MODES.mono);
 
@@ -31,11 +30,17 @@ const Scrollingmode = () => {
     }
   };
 
+  const handleLetterChange = (index, value) => {
+    const newMatrices = [...matrices];
+    newMatrices[index].letter = value; // Update the letter for the specific matrix
+    setMatrices(newMatrices);
+  };
+
   const addMatrix = (count = 1) => {
     setMatrices((prevMatrices) => {
       let newMatrices = [];
       for (let uniqueId = 1; uniqueId <= count; uniqueId++) {
-        const newMatrix = { id: Date.now() + uniqueId, occurence: 1 };
+        const newMatrix = { id: Date.now() + uniqueId, occurence: 1, letter: "" };
         newMatrices.push(newMatrix);
         matrixRefs.current.push(React.createRef());
       }
@@ -56,29 +61,29 @@ const Scrollingmode = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex flex-row flex-grow p-4 bg-gray-50">
-        <ToolBar
-          matrices={matrices}
-          matrixRefs={matrixRefs}
-          addMatrix={addMatrix}
-          deleteAllMatrix={deleteAllMatrix}
-          setMatrixMode={setMatrixMode}
-        />
-        <Workspace>
-          <div id="matrix-container" className="mt-6 space-y-6">
+    <div className="flex flex-row ">
+      <ToolBar
+        matrices={matrices}
+        matrixRefs={matrixRefs}
+        addMatrix={addMatrix}
+        deleteAllMatrix={deleteAllMatrix}
+        setMatrixMode={setMatrixMode}
+      />
+      <Workspace>
+        <div className="mt-1 p-4">
+          <div id="matrix-container" className="overflow-y-auto">
             {matrices.map((matrix, index) => (
               <div
                 key={matrix.id}
-                className="bg-white shadow-lg rounded-lg p-4 border border-gray-200"
+                className="shadow-lg rounded-lg p-4 border border-gray-200 bg-white transition duration-200 hover:shadow-xl flex flex-col"
               >
                 <Matrix
                   ref={matrixRefs.current[index]}
                   index={index + 1}
                   mode={matrixMode}
-                  letter={letter} // Pass the letter to the Matrix component
+                  letter={matrix.letter} // Pass the letter specific to the matrix
                 />
-                <div className="mt-4">
+                <div>
                   <label
                     htmlFor={`occurrence-${index}`}
                     className="block text-center font-semibold text-gray-700"
@@ -92,21 +97,38 @@ const Scrollingmode = () => {
                     onChange={(e) => handleOccurenceChange(index, e.target.value)}
                     min="1"
                     max={MaxImages}
-                    className="w-full border border-gray-300 rounded p-2 text-center"
+                    className="w-full border border-gray-300 rounded p-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
                     disabled={matrixMode === SETTING_MODES.multy}
+                  />
+                </div>
+                {/* Input for entering a letter below the repetitions input */}
+                <div className="mt-4">
+                  <label
+                    htmlFor={`letter-input-${index}`} // Unique id for each input
+                    className="block text-center font-semibold text-gray-700"
+                  >
+                    Entrer une lettre:
+                  </label>
+                  <input
+                    type="text"
+                    id={`letter-input-${index}`}
+                    value={matrix.letter} // Use the letter specific to the matrix
+                    onChange={(e) => handleLetterChange(index, e.target.value)}
+                    className="w-full border border-gray-300 rounded p-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    maxLength={1} // Limit to a single character
                   />
                 </div>
                 <button
                   onClick={() => removeMatrix(index)}
-                  className="mt-4 w-full bg-red-400 text-white p-2 rounded hover:bg-red-500 transition duration-200"
+                  className="mt-4 w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-200"
                 >
                   Supprimer la Matrice
                 </button>
               </div>
             ))}
           </div>
-        </Workspace>
-      </div>
+        </div>
+      </Workspace>
     </div>
   );
 };
