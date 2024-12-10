@@ -3,88 +3,105 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --body-background: #f9f9f9;
   --foreground: #171717;
-  --mocup-color: #c0c0c0;
-  --mocup-color-2: #7c7c7c;
-  --header-height: 60px;
-  --body-height: calc(100vh - var(--header-height) - var(--footer-height));
-  --footer-height: 0px;
-  --tool-bar-width: 300px;
-  --workspace-width: calc(100vw - var(--tool-bar-width));
+  --mocup-color: #e0e0e0; /* Lighter for a softer appearance */
+  --mocup-color-2: #f7f7f7; /* Even lighter for sections */
+  --tool-bar-width: 300px; /* Fixed width for toolbar */
+  --workspace-width: calc(100vw - var(--tool-bar-width)); /* Fixed width for toolbar */
+  --color: #3f3f3f;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
-*{
-  overflow: hidden;
+
+* {
+  box-sizing: border-box; /* Include padding and border in width and height */
+  color: var(--color);
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--body-background);
+  font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif; /* Updated font family */
+  margin: 0; /* Remove default margin */
 }
 
-body > #main{
-  position: fixed;
-  left: 0;
-  top: 0;
+body > #main {
+  display: flex; /* Use flexbox for layout */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  overflow: hidden; /* Hide overflow for main container */
 
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-  overflow:hidden;
-  grid-template-columns: 100vw;
-  grid-template-rows: var(--header-height) var(--body-height) var(--footer-height);
-  header, footer{
-    background-color: var(--mocup-color);
-    font-size: large;
-    text-align: center;
+  > header {
+    height: var(--header-height); /* Fixed height for header */
+    display: flex; /* Center contents */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold; /* Enhanced header text */
   }
-  > header{
-    height: var(--header-height);
-  }
-  > main{
-    display: grid;
-    grid-template-rows: max-content 1fr;
-    height: var(--body-height);
-    section{
-      background-color: var(--mocup-color-2);
-    }
 
-    #matrix-container{
-      width: 100%;
+  > main {
+    min-width: 100vw;
+    display: flex; /* Use flexbox for workspace and toolbar */
+    /* flex: 1; Allow main to fill available space */
+    
+    #tool-bar {
+      width: var(--tool-bar-width);
+      background-color: rgb(221, 232, 236); /* Use a defined blue color */
+      height: var(--tool-bar-height); /* Fixed height */
       display: grid;
-      grid-template-columns: repeat(auto-fill, 200px);
+      grid-template-rows: 1fr 50px; /* You can adjust this based on your toolbar structure */
+      padding: 1rem; 
+      border-bottom-right-radius: 20px; /* Rounded corners */
+      border-top-right-radius: 20px; /* Rounded corners */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Shadow for toolbar */
+    }
+    #matrix-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
       gap: 2rem;
       padding: 2rem;
-      justify-content: center;
     }
-
-    #workspace, #tool-bar{
-      height: 100%;
-      overflow-x:hidden;
-      overflow-y: auto;
-    }
-    #workspace{
-      height: 100%;
+    #workspace {
+      flex: 1; /* Allow workspace to fill remaining space */
+      background-color: var(--body-background);
+      padding: 1rem; /* Padding for workspace */
+      overflow-y: auto; /* Enable vertical scrolling */
       width: var(--workspace-width);
-      background-color: blue;
-    }
-    #tool-bar{
-      width: var(--tool-bar-width);
-      background-color: rgb(148, 82, 82);
 
-      height: 100%;
-      display: grid;
-      grid-template-rows: 1fr 50px;
     }
   }
+}
 
+/* Button Styles */
+.button {
+  background-color: rgb(199, 221, 228); /* Light blue */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: rgb(85, 160, 190); /* Darker blue on hover */
+}
+
+.button.red {
+  background-color: rgb(255, 82, 82); /* Soft red */
+}
+
+.button.red:hover {
+  background-color: rgb(255, 65, 65); /* Darker red on hover */
+}
+
+.matrix-index{
+  color: var(--background);
+}
+.matrix-options{
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 7px;
+  align-content: center;
 }
