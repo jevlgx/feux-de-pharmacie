@@ -26,7 +26,7 @@ const Scrollingmode = () => {
       newMatrices[index].occurence = newValue;
       setMatrices(newMatrices);
     } else {
-      alert(`Le nombre d'occurrences doit être égal à ${MaxImages}`);
+      alert(`Une matrice peut representer au maximum ${MaxImages} images`);
     }
   };
 
