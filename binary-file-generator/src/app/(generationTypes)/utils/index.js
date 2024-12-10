@@ -55,7 +55,7 @@ export const copyToClipboard = (hexValues) => {
         })
         .catch(err => {
             alert('Erreur lors de la copie :')
-            console.error('Erreur lors de la copie :', err);
+            console.log('Erreur lors de la copie :', err);
         });
 };
 

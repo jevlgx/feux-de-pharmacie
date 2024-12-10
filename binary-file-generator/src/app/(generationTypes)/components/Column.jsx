@@ -13,7 +13,15 @@ const Column = forwardRef(({ onGetColumnHEX }, ref) => {
 
     const getColumnHEX = () => {
         // Convertir les états en binaire
-        const binaryString = Leds.map(isOn => (isOn ? '0' : '1'));
+        //const binaryString = Leds.map(isOn => (isOn ? '0' : '1'));
+        const binaryString = LedRefs.current.map((ledRef, index)=>{
+            if(ledRef){
+                return ledRef.getState() ? '0' : '1'
+            }else{
+                return null;
+            }
+        })
+
         const bin1 = binaryString.slice(0, 4).reverse().join('');
         const bin2 = binaryString.slice(-4).reverse().join('');
         const hexValue1 = parseInt(bin1, 2).toString(16).toUpperCase()
@@ -26,7 +34,6 @@ const Column = forwardRef(({ onGetColumnHEX }, ref) => {
     const pasteColumnHex = (hexString)=>{
         const decimalValue = parseInt(hexString, 16);
         const binaryString = decimalValue.toString(2).padStart(8, '0').split('').reverse().join('');
-
         LedRefs.current.map((ledRef, index)=>{
             if(ledRef){
                 ledRef.changeState(binaryString[index])
@@ -34,6 +41,7 @@ const Column = forwardRef(({ onGetColumnHEX }, ref) => {
                 return null;
             }
         })
+
     }
 
     // Utiliser ref pour permettre à Matrix d'accéder à getColumnHEX

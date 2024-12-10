@@ -62,7 +62,7 @@ const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
       })
       .catch(err => {
         alert('Erreur lors du collage : ');
-        console.error(err);
+        console.log(err);
       });
     setShowTooltip(false); // Hide tooltip after click
   };

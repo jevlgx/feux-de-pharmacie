@@ -106,6 +106,7 @@ const Scrollingmode = () => {
                       max={MaxImages}
                       className="w-[60px] text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
                       disabled={matrixMode === SETTING_MODES.multy}
+                      title={matrixMode === SETTING_MODES.multy ? 'En mode multimatrice, chaque matrice affiche une image unique' : null}
                     />
                   </div>
                   <button

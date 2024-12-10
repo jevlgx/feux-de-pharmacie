@@ -9,7 +9,7 @@
   --mocup-color-2: #f7f7f7; /* Even lighter for sections */
   --tool-bar-width: 300px; /* Fixed width for toolbar */
   --workspace-width: calc(100vw - var(--tool-bar-width)); /* Fixed width for toolbar */
-  --color: #171717;
+  --color: #3f3f3f;
 }
 
 

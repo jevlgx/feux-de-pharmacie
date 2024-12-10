@@ -13,8 +13,12 @@ const Led = forwardRef(({ index, onToggle }, ref) => {
         setIsOn(state === "1" ? false : true);
     };
 
+    const getState = () => {
+        return isOn;
+    };
+
     useImperativeHandle(ref, () => ({
-        changeState,
+        changeState, getState
     }));
 
     // Define the LED style

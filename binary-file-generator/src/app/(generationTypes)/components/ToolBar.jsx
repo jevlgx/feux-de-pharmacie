@@ -15,8 +15,9 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
   const handleModeChange = (newMode) => {
     deleteAllMatrix();
     addMatrix();
-    setMatrixMode(newMode);
-    setMode(newMode);
+    const mode = (newMode === '1' ? SETTING_MODES.mono : SETTING_MODES.multy)
+    setMatrixMode(mode);
+    setMode(mode);
   };
 
   const handleCountChange = (numberOfLoopingImages) => {
@@ -28,33 +29,35 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
   return (
     <div id="tool-bar" >
       <div className="p-2 flex-col justify-items-center">
-        <h1 className="text-4xl font-bold text-center text-blue-500 my-4">TP Systèmes Embarqués</h1>        {mode === SETTING_MODES.mono ? (
-          <>
-            <div className="flex flex-col items-center mt-4">
-              <button
-                onClick={() => { handleModeChange(SETTING_MODES.multy); }}
-                className="mt-4 w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
-              >
-                Passer en mode Multi
-              </button>
+        <h1 className="text-4xl font-bold text-center text-blue-500 my-4">Systèmes Embarqués</h1>
+        <div className="py-4 w-full border-y-2 border-gray-300 rounded flex items-center justify-between">
+          <div>Nombre de matrice</div>
+          
+          <select className="border border-gray-300 rounded p-2" name="matrixNumber" id="matrixNumber" onChange={(e)=>{handleModeChange(e.target.value)}}>
+            <option value="1" >1</option>
+            <option value="multiple">Plusieurs</option>
+          </select>
+        </div>    
+        {mode === SETTING_MODES.mono ? (
+            <div className="flex flex-col items-center py-6 border-b-2 border-gray-300 rounded">
               {(matrices.length < numberOfLoopingImages) && (
                 <button
                   onClick={() => { addMatrix(); }}
-                  className="mt-4 w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+                  className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
                 >
                   Ajouter une Image
                 </button>
               )}
 
-              <div className="mt-4">
-                <label htmlFor="matrix-count" className="block">
-                  Nombre maximum d'images :
+              <div className="mt-4 flex items-center justify-between w-full">
+                <label htmlFor="matrix-count" className="w-max">
+                  Nombre d'image
                 </label>
                 <select
                   id="matrix-count"
                   value={numberOfLoopingImages}
                   onChange={(e) => handleCountChange(Number(e.target.value))}
-                  className="mt-2 border border-gray-300 rounded p-2 w-full"
+                  className="mt-2 border border-gray-300 rounded p-2 w-max"
                 >
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -67,23 +70,16 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
                 </select>
               </div>
             </div>
-          </>
         ) : (
-          <>
-            <button
-              onClick={() => { handleModeChange(SETTING_MODES.mono); }}
-              className="mt-4 w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
-            >
-              Passer en mode Mono
-            </button>
+          <div className="py-6 border-b-2 border-gray-300 rounded">
             <button
               onClick={() => { addMatrix(); }}
-              className="mt-4 w-full text-center bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+              className="w-full text-center bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
             >
               Ajouter une Image
             </button>
 
-          </>
+          </div>
         )}
       </div>
       <div className="bg-blue-500 flex gap-4 text-white rounded-xl p-2 justify-evenly">
@@ -93,7 +89,7 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
               try {
                 downloadSetOfBinFiles(seralizeImagesToHexArray(matrices, matrixRefs));
               } catch (e) {
-                console.error(e);
+                console.log(e);
                 alert(e.message);
               }
             }}
@@ -107,13 +103,16 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
                 try {
                   copyToClipboard(seralizeImagesToHex(numberOfLoopingImages, matrices, matrixRefs));
                 } catch (e) {
-                  console.error(e);
+                  console.log(e);
                   alert(e.message);
                 }
               }}
             >
               Copier
             </button>
+            <div className="w-1px border border-2 rounded">
+
+            </div>
             <button
               onClick={() => {
                 try {
@@ -124,7 +123,7 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
                 }
               }}
             >
-              Télécharger le .bin
+              Télécharger
             </button>
           </>
         )}
