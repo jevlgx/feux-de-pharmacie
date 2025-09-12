@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useImperativeHandle, useState, useEffect } f
 import Column from "./Column"; // Ensure the path is correct
 import { copyToClipboard } from "../utils";
 
-const Matrix = forwardRef(({ index = 1, letter }, ref) => { // Add letter prop
+const Matrix = forwardRef(function Matrix({ index = 1, letter }, ref) => { // Add letter prop
   const columnsRefs = useRef(Array(8).fill(null)); // References for the columns
   const [showTooltip, setShowTooltip] = useState(false); // State for tooltip visibility
   const [tooltipPosition, setTooltipPosition] = useState({ left: 0, top: 0 }); // Tooltip position
