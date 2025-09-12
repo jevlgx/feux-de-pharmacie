@@ -51,7 +51,7 @@ export default function ToolBar({ matrices, matrixRefs, addMatrix, deleteAllMatr
 
               <div className="mt-4 flex items-center justify-between w-full">
                 <label htmlFor="matrix-count" className="w-max">
-                  Nombre d'image
+                  Nombre d&apos;image
                 </label>
                 <select
                   id="matrix-count"
