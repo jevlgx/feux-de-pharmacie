@@ -1,7 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import Led from "./Led";
 
-const Column = forwardRef(({ onGetColumnHEX }, ref) => {
+const Column = forwardRef(function Column({ onGetColumnHEX }, ref) => {
     const [Leds, setLeds] = useState(Array(8).fill(false)); // 8 Leds dans chaque colonne
     const LedRefs = useRef(Array(8).fill(null))
 
