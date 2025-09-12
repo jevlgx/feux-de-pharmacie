@@ -1,6 +1,6 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
 
-const Led = forwardRef(({ index, onToggle }, ref) => {
+const Led = forwardRef(function Led({ index, onToggle }, ref) => {
     // Declare a state variable "isOn" initialized to false (off)
     const [isOn, setIsOn] = useState(false);
 
